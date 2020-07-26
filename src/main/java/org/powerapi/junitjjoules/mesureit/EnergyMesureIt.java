@@ -12,7 +12,7 @@ import org.powerapi.jjoules.energy.domain.EnergyDomain;
  */
 public class EnergyMesureIt {
 	
-	public static EnergyMesureIt ENERGY_MESURE_IT = new EnergyMesureIt();
+	public static final EnergyMesureIt ENERGY_MESURE_IT = new EnergyMesureIt();
 	
 	private double energyBefore;
 	private double energyAfter;
