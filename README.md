@@ -4,7 +4,7 @@ This project is an extension of Junit5 based on the project  [j-joules](https://
 
 How it works?
 
-First of all you must first install the project [j-joules](https://github.com/Mamadou59/j-joules) with
+First of all you must install the project [j-joules](https://github.com/Mamadou59/j-joules) with
 
 
 	mvn clean install 
