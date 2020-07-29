@@ -3,7 +3,7 @@
  */
 package org.powerapi.junitjjoules.mesureit;
 
-import org.powerapi.jjoules.energy.domain.EnergyDomain;
+import org.powerapi.jjoules.domain.EnergyDomain;
 
 /**
  * class for mesuring an energy with two methods <em>begin</em> and <em>end</em>
@@ -49,13 +49,13 @@ public class EnergyMesureIt {
 	 * 
 	 */
 	public void begin() {
-		this.energyBefore = this.domain.getEneregyConsumed();
+		this.energyBefore = this.domain.getDomainEnergy();
 	}
 	/**
 	 * 
 	 */
 	public double end() {
-		this.energyAfter = this.domain.getEneregyConsumed();
+		this.energyAfter = this.domain.getDomainEnergy();
 		return this.getEnergyAfter() - this.getEnergyBefore();
 	}
 

@@ -4,11 +4,10 @@
 package org.powerapi.junitjjoules.mesureit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.powerapi.jjoules.energy.domain.EnergyDomain;
+import org.powerapi.jjoules.domain.EnergyDomain;
 
 /**
  * @author sanoussy
@@ -30,7 +29,7 @@ public class EnergyMesureItTest {
 	 */
 	@Test
 	public void testGetEnergyDomain() {
-		assertThat(this.mokeDomain.getEneregyConsumed()).isEqualTo(59);
+		assertThat(this.mokeDomain.getDomainEnergy()).isEqualTo(59);
 	}
 
 	/**
@@ -62,12 +61,6 @@ public class EnergyMesureItTest {
 		}
 
 		@Override
-		public double getEneregyConsumed() {
-			getEnergyConsumedCalled = true;
-			return 59;
-		}
-
-		@Override
 		public String getDomainName() {
 			return "MokedDomain";
 		}
@@ -75,6 +68,12 @@ public class EnergyMesureItTest {
 		@Override
 		public String domainPath() {
 			return null;
+		}
+
+		@Override
+		public double getDomainEnergy() {
+			getEnergyConsumedCalled = true;
+			return 59;
 		}
 		
 	}
