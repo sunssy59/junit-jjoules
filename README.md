@@ -9,15 +9,15 @@ First of all you must install the project [j-joules](https://github.com/Mamadou5
 
 	mvn clean install 
 	
-Puis rajouter cette dependances qui permettra d'utiliser le projet [j-joules](https://github.com/Mamadou59/j-joules)
+Then add this dependency which will allow you to use the project [j-joules](https://github.com/Mamadou59/j-joules)
 	
 	<dependency>
 		<groupId>org.powerapi.jjoules</groupId>
 		<artifactId>j-joules</artifactId>
 		<version>1.0-SNAPSHOT</version>
     </dependency>
-   
-Then add this dependency which will allow you to use the project [j-joules](https://github.com/Mamadou59/j-joules)
+    
+And now you can add this annotation on each of your test classes like 
 
 ```
 //...
@@ -29,6 +29,6 @@ public class MyTest{
 
 ```
 
-By compiling your project with the goals `mvn verify`, `mvn test`, ...
+By compiling your project with the goals 	`mvn verify`, `mvn test`, ...
 
 You will get the energy consumption reports of all the test classes in the files `target/jjoules-reports/report.csv` for csv report and `target/jjoules-reports/report.json` for json report.
