@@ -1,10 +1,10 @@
 # junit-jjoules
 
-This project is an extension of Junit5 based on the [j-joules] project (https://github.com/Mamadou59/j-joules) to extract the energy consumption of a defined domain.
+This project is an extension of Junit5 based on the project  [j-joules](https://github.com/Mamadou59/j-joules) to extract the energy consumption of a defined domain.
 
 How it works?
 
-First of all you must first install the project [j-joules] (https://github.com/Mamadou59/j-joules) with
+First of all you must first install the project [j-joules](https://github.com/Mamadou59/j-joules) with
 
 
 	mvn clean install 
@@ -17,7 +17,7 @@ Puis rajouter cette dependances qui permettra d'utiliser le projet [j-joules](ht
 		<version>1.0-SNAPSHOT</version>
     </dependency>
    
-Then add this dependency which will allow you to use the [j-joules] project (https://github.com/Mamadou59/j-joules)
+Then add this dependency which will allow you to use the project [j-joules](https://github.com/Mamadou59/j-joules)
 
 ```
 //...
