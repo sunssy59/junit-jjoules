@@ -66,7 +66,7 @@ public class EnergyMesureItTest {
 			getEnergyConsumedCalled = true;
 			return 59;
 		}
-		
+
 		@Override
 		public String getDomainName() {
 			return "MokedDomain";
