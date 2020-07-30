@@ -16,13 +16,13 @@ import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
-import org.powerapi.jjoules.display.EnergyDisplayHandler;
-import org.powerapi.jjoules.display.EnergyPrinter;
-import org.powerapi.jjoules.display.EnergyRegisterCSV;
-import org.powerapi.jjoules.display.EnergyRegisterJson;
-import org.powerapi.jjoules.display.EnergySample;
-import org.powerapi.jjoules.domain.EnergyDomain;
-import org.powerapi.jjoules.rapl.domain.RaplPackageDomain;
+import org.powerapi.jjoules.energy.display.EnergyDisplayHandler;
+import org.powerapi.jjoules.energy.display.EnergyPrinter;
+import org.powerapi.jjoules.energy.display.EnergyRegisterCSV;
+import org.powerapi.jjoules.energy.display.EnergyRegisterJson;
+import org.powerapi.jjoules.energy.display.utils.Result;
+import org.powerapi.jjoules.energy.domain.EnergyDomain;
+import org.powerapi.jjoules.energy.domain.rapl.RaplPackageDomain;
 
 /**
  * @author sanoussy
@@ -37,7 +37,7 @@ public class EnergyMesureExtension implements BeforeTestExecutionCallback, After
 	private static final Logger LOGGER = Logger.getLogger(EnergyMesureExtension.class.getName());
 	private static final EnergyDomain domain = new RaplPackageDomain(0);
 	private static EnergyMesureIt ENERGY_MESURE_IT = new EnergyMesureIt(domain);
-	private static Map<String,EnergySample> resultEnergyConsumed;
+	private static Map<String,Result> resultEnergyConsumed;
 	
 	public void getNbTestsClasses(File classesDir) {
 		  File currentFile = classesDir;
@@ -64,7 +64,7 @@ public class EnergyMesureExtension implements BeforeTestExecutionCallback, After
 		}
 			
 		EnergyMesureIt.ENERGY_MESURE_IT.setEnergyDomain(domain);
-		resultEnergyConsumed =  new HashMap<String,EnergySample>();
+		resultEnergyConsumed =  new HashMap<String,Result>();
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class EnergyMesureExtension implements BeforeTestExecutionCallback, After
 		long duration = System.currentTimeMillis() - startTime;
 		
 		// end can be replace by ENERGY_MESURE_IT.getEnergyAfter()-startEnergy
-		this.resultEnergyConsumed.put(testMethod.getName(), new EnergySample(end,duration));
+		this.resultEnergyConsumed.put(testMethod.getName(), new Result(end,duration));
 		
 	}
 
