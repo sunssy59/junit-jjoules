@@ -21,11 +21,13 @@ public class CallGraph {
 	private static String CALLGRAPH_DIR = "target/call-graphs";
 	
 	public static void createDirectory() {
+		
 		File callgraphDir = new File(CALLGRAPH_DIR);
 		callgraphDir.mkdir();
 	}
 	
 	public static void generateJarFile(String className) throws Exception {
+		
 		Process proc = null;
 		
 		String[] classNameSplited = className.split("\\.");
@@ -40,9 +42,6 @@ public class CallGraph {
 				Runtime.getRuntime().exec(mvcmd);
 				generateCallGraphFile("target/" + filename + ".jar",filename + ".txt");
 			}
-				
-			else
-				throw new Exception("error => jar / cvf");
 		} catch(IOException e1) {
 			
 		}
@@ -61,12 +60,14 @@ public class CallGraph {
 		}
 	}
 
-    public static void readProcessus(Process p, String outputFilename) throws IOException {
+    private static void readProcessus(Process p, String outputFilename) throws IOException {
     	
     	createDirectory();
     	
         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        
         String line = "";
+        
         File file = new File(CALLGRAPH_DIR + "/" + outputFilename);
         
         if (! file.exists()) {

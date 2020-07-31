@@ -38,7 +38,6 @@ public class EnergyTestExtension implements BeforeTestExecutionCallback, AfterTe
 		for (Entry<String, Long> value : report.entrySet()) {
 			context.publishReportEntry(value.getKey(), value.getValue().toString());
 		}
-		//CallGraph.generateJarFile(context.getRequiredTestClass().getName());
 	}
 
 	@Override
