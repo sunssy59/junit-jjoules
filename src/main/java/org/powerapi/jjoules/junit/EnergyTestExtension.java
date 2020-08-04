@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.powerapi.jjoules.EnergySample;
-import org.powerapi.jjoules.callgraph.CallGraph;
+import org.powerapi.jjoules.callgraph.CallGraphMojo;
 import org.powerapi.jjoules.rapl.RaplDevice;
 
 /**
@@ -42,7 +42,7 @@ public class EnergyTestExtension implements BeforeTestExecutionCallback, AfterTe
 
 	@Override
 	public void afterAll(ExtensionContext context) throws Exception {
-		CallGraph.generateJarFile(context.getRequiredTestClass().getName());
+		//CallGraph.generateJarFile(context.getRequiredTestClass().getName());
 		
 	}
 }
