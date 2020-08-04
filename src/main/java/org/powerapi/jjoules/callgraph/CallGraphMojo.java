@@ -29,109 +29,109 @@ import org.apache.maven.project.MavenProject;
  *
  */
 @Mojo(name = "generate-matrix",
-		defaultPhase = LifecyclePhase.TEST)
+defaultPhase = LifecyclePhase.TEST)
 public class CallGraphMojo extends AbstractMojo{
-	
+
 	@Parameter(defaultValue = "${project}", required = true, readonly = true)
 	MavenProject project;
-	
+
 	@Parameter(defaultValue = "${project.build.directory}/callgraph-matrix.txt" , required = true)
 	private String outputFilename;
-	
+
 	@Parameter(defaultValue = "${project.build.directory}/tests-callgraph.txt", required = true)
 	private String callgraphFilename;
-	
+
 	private Map<String,Collection<String>> methodsCallgraph;
-	
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		File outputFile = new File(outputFilename);
 		File callgraphFile = new File(callgraphFilename);
-		
+
 		this.executes(callgraphFile,outputFile);
 	}
-	
+
 	private void executes(File callgraphFile, File outputFile) {
-		
+
 		getLog().info("Read tests call graph in file {"+callgraphFilename+"}");
 		this.readCallgraphFile(callgraphFile);
-		
+
 		getLog().info("Create call graph matrix and dump it in file {"+outputFilename+"}");
 		this.createCallgraphMatrix(outputFile);
 	}
-	
+
 	private void readCallgraphFile(File callgraphFile) {
 		this.methodsCallgraph = new HashMap<String,Collection<String>>();
-		
+
 		FileReader fr;
 		String line = "";
-		
+
 		try {
 			fr = new FileReader(callgraphFile);
 			BufferedReader br = new BufferedReader(fr);
 			String[] lineSplited;
-			
+
 			while((line = br.readLine()) != null) {
 				lineSplited = line.split(" ");
-				
+
 				String src = lineSplited[0];
 				String tgt = lineSplited[1];
-				
+
 				if (src.startsWith("M") && 
 						(tgt.contains(project.getGroupId())) &&
 						(tgt.startsWith(("(M")) || 
-							tgt.startsWith(("(S")) )) 
+								tgt.startsWith(("(S")) )) 
 				{	
 					String key = src.substring(2, src.length());
 					String value = tgt.substring(3, tgt.length());
-					if (! this.methodsCallgraph.containsKey(src)) 
-						this.methodsCallgraph.put(src, new ArrayList<String>());
-					
-					this.methodsCallgraph.get(src).add(tgt);
+					if (! this.methodsCallgraph.containsKey(key)) 
+						this.methodsCallgraph.put(key, new ArrayList<String>());
+
+					this.methodsCallgraph.get(key).add(value);
 				}
 			}
 		} catch (IOException e) {
 			getLog().error(e);
 		}
 	}
-	
+
 	private void createCallgraphMatrix(File outputFile) {
-		
+
 		FileWriter fw;
 		try {
-			
+
 			fw = new FileWriter(outputFile.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-	        
+
 			// keys -> tests methods
-	        Set<String> keys = this.methodsCallgraph.keySet();
-	        
-	        // values -> all methods called in tests methods
-	        Collection<String> values = new HashSet<String>();
-	 
-	        for(Collection<String> val : this.methodsCallgraph.values()) {
-	        	values.addAll(val);
-	        }
-	        
-	        // writing first line (tests methods)
-	        for(String key : keys){
-	        	bw.write(key + " ");
-	        }
-	        bw.newLine();
-	        
-	        // writing all values lines
-	        for(String value : values) {
-	        	bw.write(value + " ");
-	        	for(String key : keys) {
-	        		if(this.methodsCallgraph.get(key).contains(value))
-	        			bw.write("true ");
-	        		else
-	        			bw.write("false ");
-	        	}
-	        	bw.newLine();
-	        }
-	        bw.flush();
+			Set<String> keys = this.methodsCallgraph.keySet();
+
+			// values -> all methods called in tests methods
+			Collection<String> values = new HashSet<String>();
+
+			for(Collection<String> val : this.methodsCallgraph.values()) {
+				values.addAll(val);
+			}
+
+			// writing first line (tests methods)
+			for(String key : keys){
+				bw.write(key + " ");
+			}
+			bw.newLine();
+
+			// writing all values lines
+			for(String value : values) {
+				bw.write(value + " ");
+				for(String key : keys) {
+					if(this.methodsCallgraph.get(key).contains(value))
+						bw.write("true ");
+					else
+						bw.write("false ");
+				}
+				bw.newLine();
+			}
+			bw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}     
