@@ -34,30 +34,37 @@ public class CallGraphMojo extends AbstractMojo{
 
 	@Parameter(defaultValue = "${project}", required = true, readonly = true)
 	MavenProject project;
+	
+	@Parameter(defaultValue = "${project.build.directory}/call-graph", required = true)
+	private String outputDir;
 
-	@Parameter(defaultValue = "${project.build.directory}/callgraph-matrix.txt" , required = true)
+	@Parameter(defaultValue = "callgraph-matrix.txt" , required = true)
 	private String outputFilename;
 
-	@Parameter(defaultValue = "${project.build.directory}/tests-callgraph.txt", required = true)
+	@Parameter(defaultValue = "tests-callgraph.txt", required = true)
 	private String callgraphFilename;
 
 	private Map<String,Collection<String>> methodsCallgraph;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		
+		File outputDirFile = new File(outputDir);
+		if (! outputDirFile.exists())
+			outputDirFile.mkdir();
 
-		File outputFile = new File(outputFilename);
-		File callgraphFile = new File(callgraphFilename);
+		File outputFile = new File(outputDir,outputFilename);
+		File callgraphFile = new File(outputDir,callgraphFilename);
 
 		this.executes(callgraphFile,outputFile);
 	}
 
 	private void executes(File callgraphFile, File outputFile) {
 
-		getLog().info("Read tests call graph in file {"+callgraphFilename+"}");
+		getLog().info("Read tests call graph in file {"+callgraphFilename+"} ...");
 		this.readCallgraphFile(callgraphFile);
 
-		getLog().info("Create call graph matrix and dump it in file {"+outputFilename+"}");
+		getLog().info("Create call graph matrix and dump it in file {"+outputFilename+"} ...");
 		this.createCallgraphMatrix(outputFile);
 	}
 
@@ -92,7 +99,7 @@ public class CallGraphMojo extends AbstractMojo{
 				}
 			}
 		} catch (IOException e) {
-			getLog().error(e);
+			getLog().error("You may have to move your file {"+callgraphFilename+"} in directory {"+outputDir+"}");
 		}
 	}
 
