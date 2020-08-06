@@ -23,7 +23,7 @@ public class ReportRegister{
 	}
 
 	
-	public void jsonRegistreReport(Map<String,Map<String, Long>> reports) {
+	public void jsonRegistreReport(Map<String, Long> reports) {
 
 
 		File reportsDir = new File("target","jjoules-reports");
