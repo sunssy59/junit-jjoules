@@ -2,7 +2,7 @@
 
 This project is an extension of Junit5 based on the project  [j-joules](https://github.com/Mamadou59/j-joules) to extract the energy consumption of RAPL domains (Package and DRAM),.
 
-## Instal
+## Install
 
 First of all you must install the project [j-joules](https://github.com/Mamadou59/j-joules) with
 
