@@ -26,11 +26,6 @@ Then add this dependency which will allow you to use the project [j-joules](http
 
 ```
 <dependency>
-	<groupId>org.powerapi.jjoules</groupId>
-	<artifactId>j-joules</artifactId>
-	<version>1.0-SNAPSHOT</version>
-</dependency>
-<dependency>
         <groupId>org.powerapi.jjoules</groupId>
         <artifactId>junit-jjoules</artifactId>
 	<version>1.0-SNAPSHOT</version>
