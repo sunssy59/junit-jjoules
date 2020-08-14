@@ -38,7 +38,7 @@ public class CallGraphMojo extends AbstractMojo{
 	@Parameter(defaultValue = "${project.build.directory}/call-graph", required = true)
 	private String outputDir;
 
-	@Parameter(defaultValue = "callgraph-matrix.txt" , required = true)
+	@Parameter(defaultValue = "callgraph-matrix.csv" , required = true)
 	private String outputFilename;
 
 	@Parameter(defaultValue = "tests-callgraph.txt", required = true)
@@ -61,11 +61,14 @@ public class CallGraphMojo extends AbstractMojo{
 
 	private void executes(File callgraphFile, File outputFile) {
 
-		getLog().info("Read tests call graph in file {"+callgraphFilename+"} ...");
+		getLog().info("Parsing tests call graph in file {"+callgraphFilename+"}...");
 		this.readCallgraphFile(callgraphFile);
-
-		getLog().info("Create call graph matrix and dump it in file {"+outputFilename+"} ...");
+		getLog().info("End parsing file {"+callgraphFilename+"}");
+		
+		
+		getLog().info("Creation of the call graph matrix...");
 		this.createCallgraphMatrix(outputFile);
+		getLog().info("Call graph matrix created and dumped on file {"+outputFilename+"}");
 	}
 
 	private void readCallgraphFile(File callgraphFile) {
@@ -122,19 +125,34 @@ public class CallGraphMojo extends AbstractMojo{
 			}
 
 			// writing first line (tests methods)
+			bw.write("methods,");
+			int cpt = 0;
 			for(String key : keys){
-				bw.write(key + " ");
+				
+				if (cpt == keys.size()-1)
+					bw.write(key);
+				else 
+					bw.write(key+",");
+				cpt++;
 			}
+			
 			bw.newLine();
-
+			
 			// writing all values lines
+			String valueToWrite ="";
 			for(String value : values) {
-				bw.write(value + " ");
+				bw.write(value + ",");
+				cpt =0;
 				for(String key : keys) {
-					if(this.methodsCallgraph.get(key).contains(value))
-						bw.write("true ");
-					else
-						bw.write("false ");
+					valueToWrite = this.methodsCallgraph.get(key).contains(value) ? "true" : "false"; 
+					
+					valueToWrite = (cpt == keys.size()-1) ? valueToWrite : valueToWrite + ",";
+					
+					bw.write(valueToWrite);
+					
+					cpt++;
+					
+					
 				}
 				bw.newLine();
 			}
