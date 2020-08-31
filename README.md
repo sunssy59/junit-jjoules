@@ -4,8 +4,9 @@ This project is an extension of Junit5 based on the project  [j-joules](https://
 
 ## Install
 
-First of all you must install the project [j-joules](https://github.com/Mamadou59/j-joules) with
+First of all you must install the project [j-joules](https://github.com/Mamadou59/j-joules) with:
 
+<<<<<<< HEAD
 	git clone https://github.com/Mamadou59/j-joule
 	
 	cd j-joules
@@ -13,6 +14,23 @@ First of all you must install the project [j-joules](https://github.com/Mamadou5
 	mvn clean install
 	
 Then, clone and install `junit-jjoules` with
+=======
+```sh
+git clone https://github.com/Mamadou59/j-joules
+cd j-joules
+mvn clean install 
+```
+
+Then, clone and install `junit-jjoules` with:
+
+```sh
+git clone https://github.com/Mamadou59/junit-jjoules
+cd junit-jjoules
+mvn clean install
+```
+
+## Run
+>>>>>>> 4cf6a6065f184f30cd3ed6bd2a79d603a2f3fe8e
 
 	git clone https://github.com/Mamadou59/junit-jjoule
 	
@@ -24,6 +42,7 @@ Then, clone and install `junit-jjoules` with
 
 Add this dependency to your *pom.xml* which will allow you to use this project in your own project
 
+<<<<<<< HEAD
 	<dependency>
 		<groupId>org.powerapi.jjoules</groupId>
 		<artifactId>junit-jjoules</artifactId>
@@ -78,6 +97,19 @@ Add this one which create a jar file for all test classes
 Copy the jar file (call graph tool) from this directory `src/main/java/org/powerapi/jjoules/ressources/javacg-0.1-SNAPSHOT-static.jar` to your project root directory.
 
 Then add these plugins
+=======
+```
+<dependency>
+        <groupId>org.powerapi.jjoules</groupId>
+        <artifactId>junit-jjoules</artifactId>
+	<version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+And now you can add this annotation on each of your test classes like
+```java
+//...
+>>>>>>> 4cf6a6065f184f30cd3ed6bd2a79d603a2f3fe8e
 
 	<plugin>
 		<groupId>org.codehaus.mojo</groupId>
@@ -154,4 +186,8 @@ In your project root execute this command to run all tests
 
 Now, you will get the energy consumption reports of all energy tests in directory `/target/jjoules-reports` only one test in one json file.
 
+<<<<<<< HEAD
 You can also see the call graph files in this directory `/target/call-graph` if you did not change the directory path before in plugins configuration.
+=======
+You will get the energy consumption reports of all the test classes in the files `target/jjoules-reports/report.csv` for csv report and `target/jjoules-reports/report.json` for json report.
+>>>>>>> 4cf6a6065f184f30cd3ed6bd2a79d603a2f3fe8e
