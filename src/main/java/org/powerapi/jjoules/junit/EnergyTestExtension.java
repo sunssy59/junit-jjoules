@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.powerapi.jjoules.junit;
 
 import java.util.Map;
@@ -17,32 +14,29 @@ import org.powerapi.jjoules.rapl.RaplDevice;
  * JUnit extension for logging the energy consumption of tests.
  *
  */
-public class EnergyTestExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback{
-	private final Namespace NAMESPACE = Namespace.create(getClass());
+public class EnergyTestExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
-	public static final ReportRegister REPORT_REGISTER= new ReportRegister();
+    private static final Namespace NAMESPACE = Namespace.create(EnergyTestExtension.class);
 
-	private final Store getStore(final ExtensionContext context) {
-		return context.getStore(this.NAMESPACE);
-	}
+    private static final ReportRegister REGISTER = new ReportRegister();
 
-	@Override
-	public void beforeTestExecution(final ExtensionContext context) throws Exception {
-		
-		if(context.getRequiredTestMethod().isAnnotationPresent(EnergyTest.class))
-			getStore(context).put(context.getRequiredTestMethod(), RaplDevice.RAPL.recordEnergy());
-	}
+    private Store getStore(final ExtensionContext context) {
+        return context.getStore(NAMESPACE);
+    }
 
-	@Override
-	public void afterTestExecution(final ExtensionContext context) throws Exception {
-		if(context.getRequiredTestMethod().isAnnotationPresent(EnergyTest.class)) {
-			Map<String, Long> report = getStore(context).get(context.getRequiredTestMethod(), EnergySample.class).stop();
-			
-			REPORT_REGISTER.setFilename(context.getRequiredTestClass().getName());
-			REPORT_REGISTER.jsonRegistreReport(report);
-		}
-		//		for (Entry<String, Long> value : report.entrySet()) {
-		//			context.publishReportEntry(value.getKey(), value.getValue().toString());
-		//		}
-	}
+    @Override
+    public void beforeTestExecution(final ExtensionContext context) {
+        if (context.getRequiredTestMethod().isAnnotationPresent(EnergyTest.class)) {
+            getStore(context).put(context.getRequiredTestMethod(), RaplDevice.RAPL.recordEnergy());
+        }
+    }
+
+    @Override
+    public void afterTestExecution(final ExtensionContext context) {
+        if (context.getRequiredTestMethod().isAnnotationPresent(EnergyTest.class)) {
+            final Map<String, Long> report = getStore(context).get(context.getRequiredTestMethod(), EnergySample.class).stop();
+            REGISTER.save(context.getRequiredTestClass().getName(), context.getRequiredTestMethod(), report);
+        }
+    }
+
 }

@@ -1,56 +1,55 @@
 /**
- * 
+ *
  */
 package org.powerapi.jjoules.junit;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @author spirals
  *
  */
-public class ReportRegister{
+public class ReportRegister {
 
-	private String filename;
+    public static final String JSON_EXTENSION = ".json";
 
-	public void setFilename(String newFilename) {
-		this.filename = newFilename;
-	}
+    private final File reportsDir;
 
-	
-	public void jsonRegistreReport(Map<String, Long> reports) {
+    public ReportRegister() {
+        this.reportsDir = new File("target", "jjoules-reports");
+        if (!reportsDir.exists()) {
+            if (!reportsDir.mkdir()) {
+                throw new RuntimeException("Could not create " + reportsDir.getAbsolutePath());
+            }
+        }
+    }
 
+    public void save(String className, Method testMethod, Map<String, Long> report) {
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        final File file = new File(reportsDir, className + "-" + testMethod.getName() + JSON_EXTENSION);
+        if (!file.exists()) {
+            try {
+                if (!file.createNewFile()) {
+                    throw new RuntimeException("Could not create " + file.getAbsolutePath());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try (FileWriter writer = new FileWriter(file.getAbsoluteFile())) {
+            writer.write(gson.toJson(report));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-		File reportsDir = new File("target","jjoules-reports");
-
-		if(! reportsDir.exists()) {
-			reportsDir.mkdir();
-		}
-
-		Gson gson = new Gson();
-
-		File file = new File(reportsDir,filename+".json");
-
-		if(! file.exists()) {
-			try {
-				file.createNewFile();
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-		try {
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			gson.toJson(gson.toJsonTree(reports),fw);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 }
