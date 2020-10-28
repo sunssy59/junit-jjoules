@@ -130,10 +130,8 @@ The first one execute java command with call graph tool to create à call graph 
 
 #### How to write tests 
 
-The rules to respect are:
-
-- You must write only one energy test per file test class
-- You have to add this annotation on each energy test like 
+You have to add the annotation `@EnergyTest` on each energy, instead of classical `@Test` annotation.
+Following an example:  
 
 	//...
 	

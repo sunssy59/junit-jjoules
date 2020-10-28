@@ -1,7 +1,6 @@
 package org.powerapi.jjoules;
 
 import org.junit.After;
-import org.junit.jupiter.api.AfterAll;
 
 import java.io.File;
 import java.util.ArrayList;
